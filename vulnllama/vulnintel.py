@@ -4,7 +4,7 @@ def get_cvss(cve):
 
     url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve}"
     
-    r = requests.get(url, timeout=15)
+    r = requests.get(url)
     data = r.json()
 
     try:
