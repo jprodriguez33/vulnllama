@@ -9,7 +9,7 @@ def scan_dependencies(path):
 
     print(f"Scanning dependencies in {path}")
 
-    os.makdirs("reports", exist_ok=True)
+    os.makedirs("reports", exist_ok=True)
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     report_path = f"reports/scan_report_{timestamp}.txt"
     report = open(report_path, "w")
