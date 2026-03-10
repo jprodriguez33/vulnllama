@@ -18,5 +18,5 @@ def scan_dependencies(path):
         return
     
     print("\nAI Analysis:\n")
-    ai_result = scan_dependencies(scan_output)
+    ai_result = analyze_vulnerabilities(scan_output)
     print(ai_result)
