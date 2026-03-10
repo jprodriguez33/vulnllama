@@ -1,6 +1,7 @@
 import subprocess
 import json
 from ai import analyze_vulnerabilities
+from vulnintel import get_cvss, get_epss
 
 def scan_dependencies(path):
 
@@ -26,24 +27,30 @@ def scan_dependencies(path):
         for pkg in result.get("packages", []):
             for group in pkg.get("groups", []):
 
-                severity = float(group.get("max_severity", 0))
-
-                if severity >= 7.0:  # High or Critical
-                    for alias in group.get("aliases", []):
-                        if alias.startswith("CVE"):
-                            vulns.add(alias)    
+                for alias in group.get("aliases", []):
+                    if alias.startswith("CVE"):
+                        vulns.add(alias)
 
     if not vulns:
         print("No vulnerabilities found.")
         return
-
-    vuln_list = "\n".join(vulns)
-
+    
     print("\nDetected vulnerabilities:\n")
-    print(vuln_list)
+    
+    for vuln in vulns:
 
-    print("\nAI Analysis:\n")
+        print(f"\n--- {vuln} ---")
 
-    ai_result = analyze_vulnerabilities(vuln_list)
+        cvss = get_cvss(vuln)
+        epss = get_epss(vuln)
 
-    print(ai_result)
+        print(f"CVSS: {cvss}")
+        print(f"EPSS: {epss}")
+
+        if cvss and cvss >= 7:
+
+            print("\nAI Analysis:\n")
+
+            ai_result = analyze_vulnerabilities(vuln)
+
+            print(ai_result)
