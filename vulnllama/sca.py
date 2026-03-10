@@ -22,20 +22,13 @@ def scan_dependencies(path):
 
     vulns = set()
 
-    
     for result in data.get("results", []):
         for pkg in result.get("packages", []):
             for group in pkg.get("groups", []):
 
-            # Prefer aliases (usually contains CVE)
                 for alias in group.get("aliases", []):
                     if alias.startswith("CVE"):
-                     vulns.add(alias)
-
-            # fallback if no CVE found
-                for vuln_id in group.get("ids", []):
-                    if vuln_id.startswith(("GHSA", "PYSEC")):
-                        vulns.add(vuln_id)
+                        vulns.add(alias)
 
     if not vulns:
         print("No vulnerabilities found.")
