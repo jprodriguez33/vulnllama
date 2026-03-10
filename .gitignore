@@ -4,4 +4,3 @@ __pycache__/
 .env
 .DS_Store
 reports/
-temp_repo/
