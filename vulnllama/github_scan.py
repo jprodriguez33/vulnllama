@@ -21,4 +21,4 @@ def scan_github_repo(repo_url):
     scan_dependencies(temp_dir)
 
     # cleanup
-    shutil.rmtree(temp_dir)
+    #shutil.rmtree(temp_dir)
