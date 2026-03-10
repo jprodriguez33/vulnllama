@@ -4,7 +4,7 @@ from sca import scan_dependencies
 def main():
 
     if len(sys.argv) < 2:
-        print("Usage: vulnclaw scan <path>")
+        print("Usage: vulnllama scan <path>")
         return
 
     command = sys.argv[1]

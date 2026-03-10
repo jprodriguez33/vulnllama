@@ -1,4 +1,5 @@
 import subprocess
+import json
 from ai import analyze_vulnerabilities
 
 def scan_dependencies(path):
@@ -17,6 +18,25 @@ def scan_dependencies(path):
         print("No vulns found")
         return
     
+    data = json.loads(scan_output)
+
+    vulns = []
+
+    for result in data.get("results", []):
+        for vuln in result.get("vulnerabilities", []):
+            vulns.append(vuln["id"])
+
+    if not vulns:
+        print("No vulnerabilities found.")
+        return
+
+    vuln_list = "\n".join(vulns)
+
+    print("\nDetected vulnerabilities:\n")
+    print(vuln_list)
+
     print("\nAI Analysis:\n")
-    ai_result = analyze_vulnerabilities(scan_output)
+
+    ai_result = analyze_vulnerabilities(vuln_list)
+
     print(ai_result)

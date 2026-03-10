@@ -1,8 +1,9 @@
 import requests
 import json
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
+AI_URL = "http://localhost:11434/api/generate"
 MODEL = "mistral"
+
 
 def analyze_vulnerabilities(scan_output):
 
@@ -26,7 +27,7 @@ Scan results:
 """
 
     response = requests.post(
-        OLLAMA_URL,
+        AI_URL,
         json={
             "model": MODEL,
             "prompt": prompt,
