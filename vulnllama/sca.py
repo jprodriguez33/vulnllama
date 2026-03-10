@@ -1,4 +1,5 @@
 import subprocess
+from vulnllama.ai import analyze_vulnerabilities
 
 def scan_dependencies(path):
 
