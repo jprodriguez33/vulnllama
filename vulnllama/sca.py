@@ -55,7 +55,7 @@ def scan_dependencies(path):
         print(f"CVSS: {cvss}")
         print(f"EPSS: {epss}")
 
-        if cvss and cvss >= 7:
+        if cvss and cvss >= 7 and epss >= 0.1:
 
             print("\nAI Analysis:\n")
 
