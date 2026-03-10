@@ -1,5 +1,5 @@
 import sys
-from vulnllama.sca import scan_dependencies
+from sca import scan_dependencies
 
 def main():
 
