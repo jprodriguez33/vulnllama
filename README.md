@@ -53,9 +53,14 @@ AI Analysis:
 This vulnerability allows remote code execution due to improper input validation...
 # To-Do 
 Get data from exploit-db and cisa kev
+
 PoC generation
+
 support for more dependency ecosystems
+
 performance optimizations
+
+fix issue with NIST NVD not getting CVE properly
 
 # Disclaimer
 This project is experimental and is intended for research and education purposes
