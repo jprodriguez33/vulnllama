@@ -1,5 +1,7 @@
 import subprocess
 import json
+import datetime
+import os
 from ai import analyze_vulnerabilities
 from vulnintel import get_cvss, get_epss
 
@@ -7,7 +9,11 @@ def scan_dependencies(path):
 
     print(f"Scanning dependencies in {path}")
 
-    
+    os.makdirs("reports", exist_ok=True)
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    report_path = f"reports/scan_report_{timestamp}.txt"
+    report = open(report_path, "w")
+
     result = subprocess.run(
             ["osv-scanner", "scan","source","-r", path, "--format", "json"],
             capture_output=True,
@@ -54,3 +60,6 @@ def scan_dependencies(path):
             ai_result = analyze_vulnerabilities(vuln)
 
             print(ai_result)
+
+            report.write("AI Analysis:\n")
+            report.write(ai_result + "\n\n")
