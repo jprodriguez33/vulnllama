@@ -7,15 +7,19 @@ MODEL = "llama3.1"
 def analyze_vulnerabilities(scan_output):
 
     prompt = f"""
-You are a cybersecurity vulnerability analyst.
+You are a senior application security engineer.
 
-Explain the vulnerabilities found in the following SCA scan.
+The following JSON is output from a software composition analysis scan.
 
-For each vulnerability include:
-- vulnerability description
-- possible attack scenario
-- exploitability estimate
-- recommended fix
+Your task:
+- Extract the vulnerabilities
+- Explain what each vulnerability means
+- Describe possible attack scenarios
+- Suggest remediation steps
+
+Ignore the JSON structure and schema.
+
+Focus ONLY on the vulnerabilities listed in the report.
 
 Scan results:
 {scan_output}
