@@ -6,7 +6,7 @@ def scan_dependencies(path):
 
     try:
         result = subprocess.run(
-            ["osv-scanner", "--path", path],
+            ["osv-scanner", "scan","source","-r", path],
             capture_output=True,
             text=True
         )
