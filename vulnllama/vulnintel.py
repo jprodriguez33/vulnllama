@@ -4,15 +4,14 @@ def get_cvss(cve):
 
     url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve}"
     
-    r = requests.get(url)
+    r = requests.get(url, timeout=10)
     data = r.json()
 
-    metrics = data["vulnerabilities"][0]["cve"]["metrics"]
-
-    if "cvssMetricV31" in metrics:
-        return metrics["cvssMetricV31"][0]["cvssData"]["baseScore"]
-
-    return None
+    try:
+        score = data["vulnerabilities"][0]["cve"]["metrics"]["cvssMetricV31"][0]["cvssData"]["baseScore"]
+        return score
+    except:
+        return None
 
 def get_epss(cve):
 

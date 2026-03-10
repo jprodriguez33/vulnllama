@@ -43,11 +43,13 @@ def scan_dependencies(path):
     
     print("\nDetected vulnerabilities:\n")
     
-    for vuln in vulns:
+    for vuln in sorted(vulns):
 
         print(f"\n--- {vuln} ---")
 
+        print("Getting CVSS...")
         cvss = get_cvss(vuln)
+        print("Getting EPSS...")
         epss = get_epss(vuln)
 
         print(f"CVSS: {cvss}")
