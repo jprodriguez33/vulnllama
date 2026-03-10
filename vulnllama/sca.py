@@ -22,10 +22,12 @@ def scan_dependencies(path):
 
     vulns = []
 
+    
     for result in data.get("results", []):
         for pkg in result.get("packages", []):
-            for vuln in pkg.get("vulnerabilities", []):
-                vulns.append(vuln["id"])
+            for group in pkg.get("groups", []):
+                for vuln_id in group.get("ids", []):
+                    vulns.append(vuln_id)
 
     if not vulns:
         print("No vulnerabilities found.")
