@@ -20,7 +20,7 @@ def scan_github_repo(repo_url):
 
     if os.path.exists(os.path.join(temp_dir, "package.json")):
         print("Detected Node project — installing dependencies...")
-        subprocess.run(["npm", "install"], cwd=temp_dir)
+        subprocess.run(["npm", "install", "--package-lock-only"], cwd=temp_dir)
 
     # run scanner
     scan_dependencies(temp_dir)
