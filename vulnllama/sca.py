@@ -26,9 +26,12 @@ def scan_dependencies(path):
         for pkg in result.get("packages", []):
             for group in pkg.get("groups", []):
 
-                for alias in group.get("aliases", []):
-                    if alias.startswith("CVE"):
-                        vulns.add(alias)
+                severity = group.get("max_severity", 0)
+
+                if severity >= 7.0:  # High or Critical
+                    for alias in group.get("aliases", []):
+                        if alias.startswith("CVE"):
+                            vulns.add(alias)    
 
     if not vulns:
         print("No vulnerabilities found.")
