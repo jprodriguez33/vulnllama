@@ -63,3 +63,6 @@ def scan_dependencies(path):
 
             report.write("AI Analysis:\n")
             report.write(ai_result + "\n\n")
+
+    report.close()
+    print(f"\nReport saved to: {report_path}")
