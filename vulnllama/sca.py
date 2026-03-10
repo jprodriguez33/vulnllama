@@ -25,8 +25,13 @@ def scan_dependencies(path):
         print("No vulns found")
         return
     
-    data = json.loads(scan_output)
-
+    try:
+        data = json.loads(scan_output)
+    except json.JSONDecodeError as e:
+        print("OSV JSON parsing error:", e)
+        print("Raw output:")
+        print(scan_output[:500])
+        return
     vulns = set()
 
     for result in data.get("results", []):
