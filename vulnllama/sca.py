@@ -8,7 +8,7 @@ from vulnintel import get_cvss, get_epss
 def scan_dependencies(path):
 
     print(f"Scanning dependencies in {path}")
-
+    print("Running OSV Scanner...\n")
     os.makedirs("reports", exist_ok=True)
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     report_path = f"reports/scan_report_{timestamp}.txt"
@@ -63,6 +63,7 @@ def scan_dependencies(path):
 
             report.write("AI Analysis:\n")
             report.write(ai_result + "\n\n")
-
+        else:
+            print("Vulnerability is low severity, skipping AI analysis.")
     report.close()
     print(f"\nReport saved to: {report_path}")

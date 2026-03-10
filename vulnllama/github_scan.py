@@ -13,7 +13,7 @@ def scan_github_repo(repo_url):
 
     print(f"Cloning repository: {repo_url}")
 
-    Repo.clone_from(repo_url, temp_dir)
+    Repo.clone_from(repo_url, temp_dir, depth=1)
 
     print("Repository cloned.\n")
 
