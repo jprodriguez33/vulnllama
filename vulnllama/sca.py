@@ -15,7 +15,7 @@ def scan_dependencies(path):
     report = open(report_path, "w")
 
     result = subprocess.run(
-            ["osv-scanner", "scan","source","-r", path, "--format", "json"],
+            ["osv-scanner","-r", path, "--format", "json"],
             capture_output=True,
             text=True
     )
