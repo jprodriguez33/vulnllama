@@ -2,7 +2,7 @@ import requests
 import json
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "llama3.1"
+MODEL = "mistral"
 
 def analyze_vulnerabilities(scan_output):
 
