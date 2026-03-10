@@ -26,7 +26,7 @@ def scan_dependencies(path):
         for pkg in result.get("packages", []):
             for group in pkg.get("groups", []):
 
-                severity = group.get("max_severity", 0)
+                severity = float(group.get("max_severity", 0))
 
                 if severity >= 7.0:  # High or Critical
                     for alias in group.get("aliases", []):
