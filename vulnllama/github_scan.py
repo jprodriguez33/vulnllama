@@ -4,7 +4,7 @@ import subprocess
 from git import Repo
 from vulnllama.sca import scan_dependencies
 
-def scan_github_repo(repo_url):
+def scan_github_repo(repo_url, output_format="text"):
 
     temp_dir = "temp_repo"
 
@@ -18,7 +18,7 @@ def scan_github_repo(repo_url):
 
     print("Repository cloned.\n")
     # run scanner
-    scan_dependencies(temp_dir)
+    scan_dependencies(temp_dir, output_format)
 
     # cleanup
     #shutil.rmtree(temp_dir)

@@ -26,7 +26,7 @@ def main():
         path = sys.argv[2] if len(sys.argv) > 2 else "."
 
         if path.startswith("https://github.com"):
-            scan_github_repo(path)
+            scan_github_repo(path, output_format)
         else:
             scan_dependencies(path, output_format)
 
