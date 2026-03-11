@@ -22,6 +22,12 @@ Ignore the JSON structure and schema.
 
 Focus ONLY on the vulnerabilities listed in the report.
 
+Format it like this:
+
+Explanation of CVE -
+Attack scenarios -
+Remediation steps - 
+
 Scan results:
 {scan_output}
 """

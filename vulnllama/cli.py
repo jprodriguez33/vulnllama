@@ -12,6 +12,15 @@ def main():
         return  
     command = sys.argv[1]
 
+    output_format = "text"
+
+    if "--json" in sys.argv:
+        output_format = "json"
+    elif "--csv" in sys.argv:
+        output_format = "csv"
+    elif "--html" in sys.argv:
+        output_format = "html"
+
     if command == "scan":
 
         path = sys.argv[2] if len(sys.argv) > 2 else "."
@@ -19,7 +28,7 @@ def main():
         if path.startswith("https://github.com"):
             scan_github_repo(path)
         else:
-            scan_dependencies(path)
+            scan_dependencies(path, output_format)
 
     else:
         print("Unknown command\n")
