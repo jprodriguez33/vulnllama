@@ -82,7 +82,7 @@ def scan_dependencies(path, output_format="text"):
     "cve": vuln,
     "cvss": cvss,
     "epss": epss,
-    "analsysis": ai_result
+    "analysis": ai_result
     })
     
     report.close()
