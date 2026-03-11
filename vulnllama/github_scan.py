@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 from git import Repo
-from sca import scan_dependencies
+from vulnllama.sca import scan_dependencies
 
 def scan_github_repo(repo_url):
 

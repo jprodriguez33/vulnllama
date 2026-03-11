@@ -1,29 +1,29 @@
 import sys
-from sca import scan_dependencies
-from github_scan import scan_github_repo
+from vulnllama.sca import scan_dependencies
+from vulnllama.github_scan import scan_github_repo
 from colorama import Fore, Style
 
 
 def main():
 
-    banner()
 
-    if len(sys.argv) < 2:
-        print("Usage: vulnllama scan <path>")
-        return
-
+    if len(sys.argv) == 1:
+        banner()
+        return  
     command = sys.argv[1]
 
     if command == "scan":
+
         path = sys.argv[2] if len(sys.argv) > 2 else "."
 
         if path.startswith("https://github.com"):
             scan_github_repo(path)
         else:
             scan_dependencies(path)
+
     else:
-        print("Unkown command")
-        print("Usage: vulnllama scan <path-or-github-url")
+        print("Unknown command\n")
+        banner()
 
 def banner():
     print(r"""

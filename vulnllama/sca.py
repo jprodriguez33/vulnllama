@@ -2,8 +2,8 @@ import subprocess
 import json
 import datetime
 import os
-from ai import analyze_vulnerabilities
-from vulnintel import get_cvss, get_epss
+from vulnllama.ai import analyze_vulnerabilities
+from vulnllama.vulnintel import get_cvss, get_epss
 
 def scan_dependencies(path):
 
