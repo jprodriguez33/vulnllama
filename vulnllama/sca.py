@@ -6,7 +6,7 @@ import os
 from vulnllama.ai import analyze_vulnerabilities
 from vulnllama.vulnintel import get_cvss, get_epss
 
-def scan_dependencies(path, output_format="text"):
+def scan_dependencies(path, output_format):
 
     results = []
     print(f"Scanning dependencies in {path}")
