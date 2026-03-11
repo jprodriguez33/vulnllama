@@ -60,16 +60,11 @@ def scan_dependencies(path, output_format="text"):
         print("Getting EPSS...")
         epss = get_epss(vuln)
 
-        results.append({
-            "cve": vuln,
-            "cvss": cvss,
-            "epss": epss
-        })
-
         print(f"CVSS: {cvss}")
         print(f"EPSS: {epss}")
 
-        if cvss and cvss >= 7 or epss >= 0.1:
+        ai_result = None 
+        if (cvss and cvss >= 7) or (epss and epss >= 0.1):
             print("\nvulnllama detects high risk vulnerability\n")
             print("\nAI Analysis:\n")
 
@@ -79,8 +74,17 @@ def scan_dependencies(path, output_format="text"):
 
             report.write("AI Analysis:\n")
             report.write(ai_result + "\n\n")
+            
         else:
             print("Skipping vulnllama analysis due to low priority vulnerability")
+    
+    results.append({
+    "cve": vuln,
+    "cvss": cvss,
+    "epss": epss,
+    "analsysis": ai_result
+    })
+    
     report.close()
     # Export results in different formats
     if output_format == "json":
@@ -104,11 +108,11 @@ def scan_dependencies(path, output_format="text"):
             f.write("<html><body>")
             f.write("<h1>VulnLlama Report</h1>")
             f.write("<table border='1'>")
-            f.write("<tr><th>CVE</th><th>CVSS</th><th>EPSS</th></tr>")
+            f.write("<tr><th>CVE</th><th>CVSS</th><th>EPSS</th><th>AI Analysis</th></tr>")
 
             for r in results:
                 f.write(
-                    f"<tr><td>{r['cve']}</td><td>{r['cvss']}</td><td>{r['epss']}</td></tr>"
+                    f"<tr><td>{r['cve']}</td><td>{r['cvss']}</td><td>{r['epss']}</td><td>{r['analysis']}</td></tr>"
                 )
 
             f.write("</table></body></html>")
