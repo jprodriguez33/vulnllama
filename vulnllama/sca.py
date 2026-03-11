@@ -69,7 +69,7 @@ def scan_dependencies(path, output_format="text"):
         print(f"CVSS: {cvss}")
         print(f"EPSS: {epss}")
 
-        if cvss and cvss >= 7 and epss >= 0.1:
+        if cvss and cvss >= 7 or epss >= 0.1:
             print("\nvulnllama detects high risk vulnerability\n")
             print("\nAI Analysis:\n")
 
