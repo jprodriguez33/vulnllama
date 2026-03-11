@@ -1,0 +1,12 @@
+README.md
+setup.py
+vulnllama/ai.py
+vulnllama/cli.py
+vulnllama/github_scan.py
+vulnllama/sca.py
+vulnllama/vulnintel.py
+vulnllama.egg-info/PKG-INFO
+vulnllama.egg-info/SOURCES.txt
+vulnllama.egg-info/dependency_links.txt
+vulnllama.egg-info/entry_points.txt
+vulnllama.egg-info/top_level.txt

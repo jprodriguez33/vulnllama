@@ -1,0 +1,2 @@
+[console_scripts]
+vulnllama = vulnllama.cli:main
