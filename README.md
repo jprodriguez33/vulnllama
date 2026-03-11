@@ -13,11 +13,13 @@ Generates reports to view
 Clone the repository:
 
 git clone https://github.com/jprodriguez33/vulnllama
+
 cd vulnllama
 
 Create a virtual environment:
 
 python3 -m venv venv
+
 source venv/bin/activate
 
 Install dependencies:
@@ -50,7 +52,9 @@ CVSS: 9.8
 EPSS: 0.72
 
 AI Analysis:
+
 This vulnerability allows remote code execution due to improper input validation...
+
 # To-Do 
 Get data from exploit-db and cisa kev
 
