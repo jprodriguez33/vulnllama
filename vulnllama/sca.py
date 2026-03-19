@@ -5,11 +5,19 @@ import datetime
 import os
 from vulnllama.ai import analyze_vulnerabilities
 from vulnllama.vulnintel import get_cvss, get_epss
+from vulnllama.osv_installer import ensure_osv_scanner_installed, get_osv_scanner_path
 
-def scan_dependencies(path, output_format="text"):
+def scan_dependencies(path, output_format="text", ai=False):
 
     results = []
     print(f"Scanning dependencies in {path}")
+    
+    # Ensure osv-scanner is installed
+    if not ensure_osv_scanner_installed():
+        print("ERROR: Failed to install osv-scanner. Aborting scan.")
+        return
+    
+    osv_path = get_osv_scanner_path()
     print("Running OSV Scanner...\n")
 
     os.makedirs("reports", exist_ok=True)
@@ -18,7 +26,7 @@ def scan_dependencies(path, output_format="text"):
     report = open(report_path, "w")
 
     result = subprocess.run(
-            ["osv-scanner","-r", path, "--format", "json"],
+            [osv_path, "-r", path, "--format", "json"],
             capture_output=True,
             text=True
     )
@@ -26,6 +34,7 @@ def scan_dependencies(path, output_format="text"):
 
     if not scan_output.strip():
         print("No vulns found")
+        report.close()
         return
     
     try:
@@ -34,6 +43,7 @@ def scan_dependencies(path, output_format="text"):
         print("OSV JSON parsing error:", e)
         print("Raw output:")
         print(scan_output[:500])
+        report.close()
         return
     vulns = set()
 
@@ -47,6 +57,7 @@ def scan_dependencies(path, output_format="text"):
 
     if not vulns:
         print("No vulnerabilities found.")
+        report.close()
         return
     
     print("\nDetected vulnerabilities:\n")
@@ -63,29 +74,36 @@ def scan_dependencies(path, output_format="text"):
         print(f"CVSS: {cvss}")
         print(f"EPSS: {epss}")
 
-        ai_result = None 
-        if (cvss and cvss >= 7) or (epss and epss >= 0.1):
+        is_high_risk = (cvss is not None and cvss >= 7) or (epss is not None and epss >= 0.1)
+        analysis = ""
+
+        if is_high_risk:
             print("\nvulnllama detects high risk vulnerability\n")
-            print("\nAI Analysis:\n")
-
-            ai_result = analyze_vulnerabilities(vuln)
-
-            print(ai_result)
-
-            report.write("AI Analysis:\n")
-            report.write(ai_result + "\n\n")
-            
+            if ai:
+                print("\nAI Analysis:\n")
+                ai_result = analyze_vulnerabilities(vuln)
+                analysis = ai_result or "AI analysis returned no data"
+                print(analysis)
+                report.write("AI Analysis:\n")
+                report.write(analysis + "\n\n")
+            else:
+                analysis = "High severity vulnerability; AI analysis skipped. Use --ai to include LLM output."
+                print("AI analysis skipped (opt-in only).")
         else:
+            analysis = "Low severity vulnerability; no AI analysis."
             print("Skipping vulnllama analysis due to low priority vulnerability")
-    
-    results.append({
-    "cve": vuln,
-    "cvss": cvss,
-    "epss": epss,
-    "analysis": ai_result
-    })
-    
+
+        results.append({
+            "cve": vuln,
+            "cvss": cvss,
+            "epss": epss,
+            "analysis": analysis
+        })
+
+        report.write(f"{vuln} - CVSS: {cvss} - EPSS: {epss} - Analysis: {analysis}\n")
+
     report.close()
+
     # Export results in different formats
     if output_format == "json":
         export_path = f"reports/scan_report_{timestamp}.json"
@@ -96,7 +114,7 @@ def scan_dependencies(path, output_format="text"):
     elif output_format == "csv":
         export_path = f"reports/scan_report_{timestamp}.csv"
         with open(export_path, "w", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=["cve","cvss","epss"])
+            writer = csv.DictWriter(f, fieldnames=["cve","cvss","epss","analysis"])
             writer.writeheader()
             writer.writerows(results)
         print(f"\nCSV report saved to: {export_path}")
