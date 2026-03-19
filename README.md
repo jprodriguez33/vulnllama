@@ -1,70 +1,114 @@
 # vulnllama
-AI-assisted software composition analysis.
 
-Combines traditional dependency scanning with LLM reasoning to explain
-vulnerability impact and exploitability.
-# Features
-Scans github repos for vulnerable dependencies using OSV-scanner
-Grabs EPSS and CVSS data to filter low-priority vulnerabilities
-Uses a local llm to explain vulnerabilities and PoC's
-Generates reports to view
+**Local Vulnerability Intelligence Engine** — Combines dependency scanning with optional AI analysis
 
-# Installation
-Clone the repository:
+Scans your dependencies for known vulnerabilities, enriches them with CVSS/EPSS severity scores, and optionally explains security impact using a local LLM.
 
+## Features
+
+-  **Dependency Scanning** — Uses OSV Scanner to detect vulnerable packages
+-  **Severity Scoring** — Fetches CVSS & EPSS data for prioritization  
+-  **Optional AI Analysis** — Run `--ai` flag to explain vulnerabilities with local LLM
+-  **Local & GitHub Support** — Scan local directories or clone and scan GitHub repos
+-  **Multiple Export Formats** — Generate reports as JSON, CSV, HTML, or text
+
+## Installation
+
+```bash
+# Clone the repository
 git clone https://github.com/jprodriguez33/vulnllama
-
 cd vulnllama
 
-Create a virtual environment:
-
+# Create virtual environment
 python3 -m venv venv
-
 source venv/bin/activate
 
-Install dependencies:
-
+# Install dependencies
 pip install -r requirements.txt
+```
 
-Install OSV Scanner:
+## Initial Setup
 
-https://github.com/google/osv-scanner
+Download the OSV Scanner binary for your platform:
 
-# Usage
-Scan a local directory:
+```bash
+vulnllama setup
+```
 
-python vulnllama/cli.py scan .
+This downloads the appropriate binary to `~/.vulnllama/osv-scanner/`. 
+(Alternatively, it auto-downloads on first scan if missing.)
 
-Scan a GitHub repository:
+## Usage
 
-python vulnllama/cli.py scan https://github.com/juice-shop/juice-shop
+### Basic Scan (No AI)
 
-Example output:
+```bash
+vulnllama scan .
+```
 
+### Scan with AI Analysis
+
+For detailed vulnerability explanations (requires Ollama running locally):
+
+```bash
+vulnllama scan . --ai
+```
+
+### GitHub Repository Scan
+
+```bash
+vulnllama scan https://github.com/juice-shop/juice-shop
+vulnllama scan https://github.com/juice-shop/juice-shop --ai
+```
+
+### Export Formats
+
+```bash
+vulnllama scan . --json
+vulnllama scan . --csv
+vulnllama scan . --html
+```
+
+## Example Output
+
+```
 Detected vulnerabilities:
 
---- CVE-2023-50728 ---
-CVSS: 5.4
-EPSS: 0.00479
+--- CVE-2023-26486 ---
+Getting CVSS...
+Getting EPSS...
+CVSS: 7.5
+EPSS: 0.456
 
---- CVE-2019-19844 ---
-CVSS: 9.8
-EPSS: 0.72
+vulnllama detects high risk vulnerability
 
+AI analysis skipped (opt-in only).
+Use --ai flag to include LLM analysis.
+```
+
+**With `--ai` flag**, high-risk CVEs include:
+```
 AI Analysis:
 
-This vulnerability allows remote code execution due to improper input validation...
+Explanation of CVE - This vulnerability allows remote attackers to ...
+Attack scenarios - An attacker could exploit this by ...
+Remediation steps - Update the package to version X.Y.Z or later ...
+```
 
-# To-Do 
-Get data from exploit-db and cisa kev
+## Requirements
 
-PoC generation
+- **Python 3.7+**
+- **For AI analysis**: Ollama running locally on `http://localhost:11434`
+  - Install: https://ollama.ai
+  - Run: `ollama serve` + `ollama pull mistral`
 
-support for more dependency ecosystems
+## Project Roadmap
 
-performance optimizations
+- [ ] CISA Known Exploited Vulnerabilities (KEV) integration
+- [ ] Proof-of-Concept (PoC) generation for high-risk CVEs
+- [ ] Support for additional package ecosystems
+- [ ] Performance optimizations for large scans
 
-fix issue with NIST NVD not getting CVE properly
+## Disclaimer
 
-# Disclaimer
-This project is experimental and is intended for research and education purposes
+This project is experimental and intended for **research and educational purposes only**. Use responsibly.

@@ -3,6 +3,7 @@ setup.py
 vulnllama/ai.py
 vulnllama/cli.py
 vulnllama/github_scan.py
+vulnllama/osv_installer.py
 vulnllama/sca.py
 vulnllama/vulnintel.py
 vulnllama.egg-info/PKG-INFO
